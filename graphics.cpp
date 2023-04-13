@@ -1,5 +1,5 @@
 #include "graphics.h"
-#include "Quad.h"
+#include "Button.h"
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -13,8 +13,8 @@ const color red(1,0,0);
 const color black(0,0,0);
 int clickCounter = 0;
 
-vector<Quad> lights;
-vector<Quad> backgroundBorder;
+vector<Button> lights;
+
 
 enum screen {startScreen, playScreen, endScreen};
 screen activeScreen = startScreen;
@@ -22,7 +22,7 @@ screen activeScreen = startScreen;
 point2D startPosition(800,800);
 
 // Creates all lights and puts them into the 'lights' vector
-void initLights() {
+void initNumbers() {
 
     double lightWidth = 65;
     double lightHeight = 65;
@@ -261,7 +261,7 @@ int main(int argc, char** argv) {
     initGL();
 
     // Initialize Lights
-    initLights();
+    initNumbers();
 
     // register keyboard press event processing function
     // works for numbers, letters, spacebar, etc.

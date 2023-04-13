@@ -2,7 +2,7 @@
 #include "graphics.h"
 using namespace std;
 
-Button::Button(color fill, point center, unsigned int width, unsigned int height, std::string label) : Quad(fill, center, width, height) {
+Button::Button(color fill, point2D center, unsigned int width, unsigned int height, std::string label) : Quad(fill, center, width, height) {
     this->label = label;
     originalFill = fill;
     hoverFill = {fill.red + 0.5, fill.green + 0.5, fill.blue + 0.5};
