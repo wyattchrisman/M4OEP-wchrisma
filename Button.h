@@ -1,5 +1,5 @@
-#ifndef GRAPHICS_STARTER_BUTTON_H
-#define GRAPHICS_STARTER_BUTTON_H
+#ifndef M4OEP_WCHRISMA_BUTTON_H
+#define M4OEP_WCHRISMA_BUTTON_H
 
 #include "Quad.h"
 #include <string>
@@ -28,4 +28,4 @@ public:
 };
 
 
-#endif //GRAPHICS_STARTER_BUTTON_H
+#endif //M4OEP_WCHRISMA_BUTTON_H

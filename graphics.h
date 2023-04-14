@@ -2,8 +2,8 @@
 // Created by Wyatt Chrisman on 4/7/23.
 //
 
-#ifndef M4AP_CJCHURCH_WCHRISMA_GRAPHICS_H
-#define M4AP_CJCHURCH_WCHRISMA_GRAPHICS_H
+#ifndef M4OEP_WCHRISMA_GRAPHICS_H
+#define M4OEP_WCHRISMA_GRAPHICS_H
 
 #include <stdlib.h>
 #ifdef _WIN32
@@ -46,4 +46,4 @@ void timer(int dummy);
 // Handle mouse button pressed and released events
 void mouse(int button, int state, int x, int y);
 
-#endif //M4AP_CJCHURCH_WCHRISMA_GRAPHICS_H
+#endif //M4OEP_WCHRISMA_GRAPHICS_H

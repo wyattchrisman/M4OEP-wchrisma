@@ -13,10 +13,12 @@ const color red(1,0,0);
 const color black(0,0,0);
 int clickCounter = 0;
 
-vector<Button> lights;
+vector<Button> numberBoxes;
 
+enum screen {startScreen,
+            playScreen,
+            endScreen};
 
-enum screen {startScreen, playScreen, endScreen};
 screen activeScreen = startScreen;
 
 point2D startPosition(800,800);
@@ -24,10 +26,8 @@ point2D startPosition(800,800);
 // Creates all lights and puts them into the 'lights' vector
 void initNumbers() {
 
-    double lightWidth = 65;
-    double lightHeight = 65;
-    double borderWidth = 75;
-    double borderHeight = 75;
+    double boxWidth = 75;
+    double boxHeight = 75;
 
     double startPosition = 58.3;
     double x,y;
@@ -48,8 +48,7 @@ void initNumbers() {
 
         // Create point with x and y and add light to vector
         point2D center(x,y);
-        lights.push_back(Quad(yellow, center, lightWidth, lightHeight));
-        backgroundBorder.push_back(Quad(yellow, center, borderWidth, borderHeight));
+        numberBoxes.push_back(Button(red, center, boxWidth, boxHeight, to_string(i)));
     }
 }
 
@@ -98,13 +97,9 @@ void display() {
     }
 
     if (activeScreen == playScreen) {
-        for (Quad &border: backgroundBorder) {
-            border.draw();
-        }
-
         // Print all the lights onto the screen
-        for (Quad &light: lights) {
-            light.draw();
+        for (Button &box: numberBoxes) {
+            box.draw();
         }
     }
 
@@ -118,9 +113,14 @@ void kbd(unsigned char key, int x, int y) {
         glutDestroyWindow(wd);
         exit(0);
     }
-    if (key == 115) {
-        activeScreen = playScreen;
+
+    // go to start screen
+    if(activeScreen == startScreen) {
+        if (key == 115) {
+            activeScreen = playScreen;
+        }
     }
+
 
     glutPostRedisplay();
 }
@@ -146,12 +146,12 @@ void kbdS(int key, int x, int y) {
 
 void cursor(int x, int y) {
     // Makes the background box red while overlapping with the background box
-    for (int i = 0; i < backgroundBorder.size(); i++){
-        if (backgroundBorder[i].isOverlapping(x,y)) {
-            backgroundBorder[i].hover();
+    for (int i = 0; i < numberBoxes.size(); i++){
+        if (numberBoxes[i].isOverlapping(x,y)) {
+            numberBoxes[i].hover();
         }
         else {
-            backgroundBorder[i].release(lights, backgroundBorder);
+            numberBoxes[i].release();
         }
     }
 
@@ -161,79 +161,12 @@ void cursor(int x, int y) {
 // button will be GLUT_LEFT_BUTTON or GLUT_RIGHT_BUTTON
 // state will be GLUT_UP or GLUT_DOWN
 void mouse(int button, int state, int x, int y) {
-    //Change to clicking of the lights and changing on/off
-    for (int i = 0; i < backgroundBorder.size(); i++) {
-        if (button == GLUT_LEFT_BUTTON && state == GLUT_UP && backgroundBorder[i].isOverlapping(x,y)) {
-            lights[i].pressDown();
-            backgroundBorder[i].pressDown();
 
-            if (i == 0) {
-                lights[i + 1].pressDown();
-                lights[i + 5].pressDown();
-                backgroundBorder[i + 1].pressDown();
-                backgroundBorder[i + 5].pressDown();
-            }
-            else if (i == 1 || i == 2 || i == 3) {
-                lights[i + 1].pressDown();
-                lights[i - 1].pressDown();
-                lights[i + 5].pressDown();
-                backgroundBorder[i + 1].pressDown();
-                backgroundBorder[i - 1].pressDown();
-                backgroundBorder[i + 5].pressDown();
-            }
-            else if (i == 4) {
-                lights[i - 1].pressDown();
-                lights[i + 5].pressDown();
-                backgroundBorder[i - 1].pressDown();
-                backgroundBorder[i + 5].pressDown();
-            }
-            else if (i == 5 || i == 10 || i == 15) {
-                lights[i + 1].pressDown();
-                lights[i - 5].pressDown();
-                lights[i + 5].pressDown();
-                backgroundBorder[i + 1].pressDown();
-                backgroundBorder[i - 5].pressDown();
-                backgroundBorder[i + 5].pressDown();
-            }
-            else if (i == 9 || i == 14 || i == 19) {
-                lights[i - 1].pressDown();
-                lights[i + 5].pressDown();
-                lights[i + 5].pressDown();
-                backgroundBorder[i - 1].pressDown();
-                backgroundBorder[i + 5].pressDown();
-                backgroundBorder[i + 5].pressDown();
-            }
-            else if (i == 20) {
-                lights[i + 1].pressDown();
-                lights[i - 5].pressDown();
-                backgroundBorder[i + 1].pressDown();
-                backgroundBorder[i - 5].pressDown();
-            }
-            else if (i == 21 || i == 22 || i == 23) {
-                lights[i - 1].pressDown();
-                lights[i + 1].pressDown();
-                lights[i - 5].pressDown();
-                backgroundBorder[i - 1].pressDown();
-                backgroundBorder[i + 1].pressDown();
-                backgroundBorder[i - 5].pressDown();
-            }
-            else if (i == 24) {
-                lights[i - 1].pressDown();
-                lights[i - 5].pressDown();
-                backgroundBorder[i - 1].pressDown();
-                backgroundBorder[i - 5].pressDown();
-            }
-            else {
-                lights[i - 1].pressDown();
-                lights[i + 1].pressDown();
-                lights[i - 5].pressDown();
-                lights[i + 5].pressDown();
-                backgroundBorder[i - 1].pressDown();
-                backgroundBorder[i + 1].pressDown();
-                backgroundBorder[i - 5].pressDown();
-                backgroundBorder[i + 5].pressDown();
-            }
-            clickCounter++;
+    // TODO: Change to select box
+    for (int i = 0; i < numberBoxes.size(); i++) {
+        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxes[i].isOverlapping(x,y)) {
+            numberBoxes[i].pressDown();
+
         }
     }
 
@@ -242,7 +175,6 @@ void mouse(int button, int state, int x, int y) {
 
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
-
     init();
 
     glutInit(&argc, argv);          // Initialize GLUT
@@ -252,7 +184,7 @@ int main(int argc, char** argv) {
     glutInitWindowSize((int)width, (int)height);
     glutInitWindowPosition(100, 200); // Position the window's initial top-left corner
     /* create the window and store the handle to it */
-    wd = glutCreateWindow("Lights Out!" /* title */ );
+    wd = glutCreateWindow("Slide Puzzle!" /* title */ );
 
     // Register callback handler for window re-paint event
     glutDisplayFunc(display);

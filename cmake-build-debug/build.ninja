@@ -38,50 +38,51 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = /Users/wyattchrisman/CLionProjects/CS120M4/M4OEP-wchrisma/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target M4OEP_wchrisma
+# Object build statements for EXECUTABLE target graphics
 
 
 #############################################
-# Order-only phony target for M4OEP_wchrisma
+# Order-only phony target for graphics
 
-build cmake_object_order_depends_target_M4OEP_wchrisma: phony || CMakeFiles/M4OEP_wchrisma.dir
+build cmake_object_order_depends_target_graphics: phony || CMakeFiles/graphics.dir
 
-build CMakeFiles/M4OEP_wchrisma.dir/Button.cpp.o: CXX_COMPILER__M4OEP_wchrisma_Debug /Users/wyattchrisman/CLionProjects/CS120M4/M4OEP-wchrisma/Button.cpp || cmake_object_order_depends_target_M4OEP_wchrisma
-  DEP_FILE = CMakeFiles/M4OEP_wchrisma.dir/Button.cpp.o.d
-  FLAGS = -g -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -std=gnu++14
-  INCLUDES = -I/Users/wyattchrisman/CLionProjects/CS120M4/M4OEP-wchrisma/.
-  OBJECT_DIR = CMakeFiles/M4OEP_wchrisma.dir
-  OBJECT_FILE_DIR = CMakeFiles/M4OEP_wchrisma.dir
+build CMakeFiles/graphics.dir/Button.cpp.o: CXX_COMPILER__graphics_Debug /Users/wyattchrisman/CLionProjects/CS120M4/M4OEP-wchrisma/Button.cpp || cmake_object_order_depends_target_graphics
+  DEP_FILE = CMakeFiles/graphics.dir/Button.cpp.o.d
+  FLAGS = -Wno-deprecated -g -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -std=gnu++17
+  INCLUDES = -F/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/System/Library/Frameworks -I/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/GLUT.framework/Headers
+  OBJECT_DIR = CMakeFiles/graphics.dir
+  OBJECT_FILE_DIR = CMakeFiles/graphics.dir
 
-build CMakeFiles/M4OEP_wchrisma.dir/graphics.cpp.o: CXX_COMPILER__M4OEP_wchrisma_Debug /Users/wyattchrisman/CLionProjects/CS120M4/M4OEP-wchrisma/graphics.cpp || cmake_object_order_depends_target_M4OEP_wchrisma
-  DEP_FILE = CMakeFiles/M4OEP_wchrisma.dir/graphics.cpp.o.d
-  FLAGS = -g -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -std=gnu++14
-  INCLUDES = -I/Users/wyattchrisman/CLionProjects/CS120M4/M4OEP-wchrisma/.
-  OBJECT_DIR = CMakeFiles/M4OEP_wchrisma.dir
-  OBJECT_FILE_DIR = CMakeFiles/M4OEP_wchrisma.dir
+build CMakeFiles/graphics.dir/Quad.cpp.o: CXX_COMPILER__graphics_Debug /Users/wyattchrisman/CLionProjects/CS120M4/M4OEP-wchrisma/Quad.cpp || cmake_object_order_depends_target_graphics
+  DEP_FILE = CMakeFiles/graphics.dir/Quad.cpp.o.d
+  FLAGS = -Wno-deprecated -g -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -std=gnu++17
+  INCLUDES = -F/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/System/Library/Frameworks -I/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/GLUT.framework/Headers
+  OBJECT_DIR = CMakeFiles/graphics.dir
+  OBJECT_FILE_DIR = CMakeFiles/graphics.dir
 
-build CMakeFiles/M4OEP_wchrisma.dir/Quad.cpp.o: CXX_COMPILER__M4OEP_wchrisma_Debug /Users/wyattchrisman/CLionProjects/CS120M4/M4OEP-wchrisma/Quad.cpp || cmake_object_order_depends_target_M4OEP_wchrisma
-  DEP_FILE = CMakeFiles/M4OEP_wchrisma.dir/Quad.cpp.o.d
-  FLAGS = -g -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -std=gnu++14
-  INCLUDES = -I/Users/wyattchrisman/CLionProjects/CS120M4/M4OEP-wchrisma/.
-  OBJECT_DIR = CMakeFiles/M4OEP_wchrisma.dir
-  OBJECT_FILE_DIR = CMakeFiles/M4OEP_wchrisma.dir
+build CMakeFiles/graphics.dir/graphics.cpp.o: CXX_COMPILER__graphics_Debug /Users/wyattchrisman/CLionProjects/CS120M4/M4OEP-wchrisma/graphics.cpp || cmake_object_order_depends_target_graphics
+  DEP_FILE = CMakeFiles/graphics.dir/graphics.cpp.o.d
+  FLAGS = -Wno-deprecated -g -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -std=gnu++17
+  INCLUDES = -F/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/System/Library/Frameworks -I/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/GLUT.framework/Headers
+  OBJECT_DIR = CMakeFiles/graphics.dir
+  OBJECT_FILE_DIR = CMakeFiles/graphics.dir
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target M4OEP_wchrisma
+# Link build statements for EXECUTABLE target graphics
 
 
 #############################################
-# Link the executable M4OEP_wchrisma
+# Link the executable graphics
 
-build M4OEP_wchrisma: CXX_EXECUTABLE_LINKER__M4OEP_wchrisma_Debug CMakeFiles/M4OEP_wchrisma.dir/Button.cpp.o CMakeFiles/M4OEP_wchrisma.dir/graphics.cpp.o CMakeFiles/M4OEP_wchrisma.dir/Quad.cpp.o
-  FLAGS = -g -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk
-  OBJECT_DIR = CMakeFiles/M4OEP_wchrisma.dir
+build graphics: CXX_EXECUTABLE_LINKER__graphics_Debug CMakeFiles/graphics.dir/Button.cpp.o CMakeFiles/graphics.dir/Quad.cpp.o CMakeFiles/graphics.dir/graphics.cpp.o
+  FLAGS = -Wno-deprecated -g -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk
+  LINK_LIBRARIES = -framework  OpenGL  -framework  OpenGL  -framework  GLUT  -framework  Cocoa
+  OBJECT_DIR = CMakeFiles/graphics.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = M4OEP_wchrisma
-  TARGET_PDB = M4OEP_wchrisma.dbg
+  TARGET_FILE = graphics
+  TARGET_PDB = graphics.dbg
 
 
 #############################################
@@ -117,7 +118,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /Users/wyattchrisman/CLionProjects/CS120M4/M4OEP-wchrisma/cmake-build-debug
 
-build all: phony M4OEP_wchrisma
+build all: phony graphics
 
 # =============================================================================
 # Built-in targets
@@ -126,14 +127,14 @@ build all: phony M4OEP_wchrisma
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../CMakeLists.txt /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCXXInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCommonLanguageInclude.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeGenericSystem.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeInitializeConfigs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeLanguageInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeSystemSpecificInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeSystemSpecificInitialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/CMakeCommonCompilerMacros.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/GNU.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Darwin-Initialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Darwin.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.23.2/CMakeCCompiler.cmake CMakeFiles/3.23.2/CMakeCXXCompiler.cmake CMakeFiles/3.23.2/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | ../CMakeLists.txt /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCXXInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCommonLanguageInclude.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeGenericSystem.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeInitializeConfigs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeLanguageInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeSystemSpecificInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeSystemSpecificInitialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/CMakeCommonCompilerMacros.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/GNU.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/FindGLUT.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/FindOpenGL.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/FindPackageHandleStandardArgs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/FindPackageMessage.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/FindPkgConfig.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Darwin-Initialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Darwin.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/UnixPaths.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/SelectLibraryConfigurations.cmake CMakeCache.txt CMakeFiles/3.23.2/CMakeCCompiler.cmake CMakeFiles/3.23.2/CMakeCXXCompiler.cmake CMakeFiles/3.23.2/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../CMakeLists.txt /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCXXInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCommonLanguageInclude.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeGenericSystem.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeInitializeConfigs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeLanguageInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeSystemSpecificInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeSystemSpecificInitialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/CMakeCommonCompilerMacros.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/GNU.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Darwin-Initialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Darwin.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.23.2/CMakeCCompiler.cmake CMakeFiles/3.23.2/CMakeCXXCompiler.cmake CMakeFiles/3.23.2/CMakeSystem.cmake: phony
+build ../CMakeLists.txt /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCXXInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeCommonLanguageInclude.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeGenericSystem.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeInitializeConfigs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeLanguageInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeSystemSpecificInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/CMakeSystemSpecificInitialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/CMakeCommonCompilerMacros.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Compiler/GNU.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/FindGLUT.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/FindOpenGL.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/FindPackageHandleStandardArgs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/FindPackageMessage.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/FindPkgConfig.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Apple-Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Darwin-Initialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/Darwin.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/Platform/UnixPaths.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.23/Modules/SelectLibraryConfigurations.cmake CMakeCache.txt CMakeFiles/3.23.2/CMakeCCompiler.cmake CMakeFiles/3.23.2/CMakeCXXCompiler.cmake CMakeFiles/3.23.2/CMakeSystem.cmake: phony
 
 
 #############################################
