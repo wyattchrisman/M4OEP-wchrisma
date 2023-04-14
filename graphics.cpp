@@ -7,13 +7,26 @@ using namespace std;
 
 GLdouble width, height;
 int wd;
-const int totalLights = 25;
+
 const color yellow(1,1,0);
 const color red(1,0,0);
 const color black(0,0,0);
+
+const int totalBoxes = 25;
+double boxWidth= 65;
+double  boxHeight = 65;
+double backgroundBoxHeight = 75;
+double backgroundBoxWidth = 75;
+
+double startBox = 58.3;
+double gapCenters = 95.8;
+
+double x,y;
+
 int clickCounter = 0;
 
 vector<Button> numberBoxes;
+vector<Button> backgroundBox;
 
 enum screen {startScreen,
             playScreen,
@@ -26,29 +39,30 @@ point2D startPosition(800,800);
 // Creates all lights and puts them into the 'lights' vector
 void initNumbers() {
 
-    double boxWidth = 75;
-    double boxHeight = 75;
 
-    double startPosition = 58.3;
-    double x,y;
-    double gapCenters = 95.8;
 
     // Get all x-coordinates and y-coordinates
-    for(int i = 1; i < totalLights + 1; ++i) {
+    for(int i = 1; i < totalBoxes + 1; ++i) {
 
         // Loop to get all x-axis
         for(int k = 1; k < 6; ++k) {
             if((i - k) % 5 == 0) {
-                x = startPosition + (gapCenters * (k-1));
+                x = startBox + (gapCenters * (k-1));
             }
         }
 
         // Set the y-axis
-        y = startPosition + ((i - 1) / 5) * gapCenters;
+        y = startBox + ((i - 1) / 5) * gapCenters;
 
         // Create point with x and y and add light to vector
         point2D center(x,y);
-        numberBoxes.push_back(Button(red, center, boxWidth, boxHeight, to_string(i)));
+        if(i < 25) {
+            numberBoxes.push_back(Button(red, center, boxWidth, boxHeight, to_string(i)));
+            backgroundBox.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, to_string(i)));
+        } else {
+            numberBoxes.push_back(Button(red, center, boxWidth, boxHeight, " "));
+            backgroundBox.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, " "));
+        }
     }
 }
 
@@ -88,7 +102,7 @@ void display() {
 
     // start screen that shows message to proceed
     if (activeScreen == startScreen) {
-        string label = "Press 's' to start!";
+        string label = "Welcome to slide puzzle!";
         glColor3f(1,1,1);
         glRasterPos2i(250 - (4 * label.length()), 250);
         for (const char &letter : label) {
@@ -97,7 +111,11 @@ void display() {
     }
 
     if (activeScreen == playScreen) {
-        // Print all the lights onto the screen
+        // Print all the boxes onto the screen
+        for (Button &box: backgroundBox) {
+            box.draw();
+        }
+
         for (Button &box: numberBoxes) {
             box.draw();
         }
@@ -149,9 +167,11 @@ void cursor(int x, int y) {
     for (int i = 0; i < numberBoxes.size(); i++){
         if (numberBoxes[i].isOverlapping(x,y)) {
             numberBoxes[i].hover();
+            backgroundBox[i].hover();
         }
         else {
             numberBoxes[i].release();
+            backgroundBox[i].release();
         }
     }
 
@@ -166,7 +186,7 @@ void mouse(int button, int state, int x, int y) {
     for (int i = 0; i < numberBoxes.size(); i++) {
         if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxes[i].isOverlapping(x,y)) {
             numberBoxes[i].pressDown();
-
+            backgroundBox[i].pressDown();
         }
     }
 
