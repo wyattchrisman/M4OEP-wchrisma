@@ -29,18 +29,25 @@ vector<Button> numberBoxes;
 vector<Button> backgroundBox;
 
 enum screen {startScreen,
-            playScreen,
+            easyScreen,
+            mediumScreen,
+            hardScreen,
             endScreen};
-
 screen activeScreen = startScreen;
+
+enum difficulty {
+    easy,
+    medium,
+    hard
+};
+
+difficulty difficulty;
+
 
 point2D startPosition(800,800);
 
 // Creates all lights and puts them into the 'lights' vector
 void initNumbers() {
-
-
-
     // Get all x-coordinates and y-coordinates
     for(int i = 1; i < totalBoxes + 1; ++i) {
 
@@ -56,7 +63,7 @@ void initNumbers() {
 
         // Create point with x and y and add light to vector
         point2D center(x,y);
-        if(i < 25) {
+        if(i < totalBoxes) {
             numberBoxes.push_back(Button(red, center, boxWidth, boxHeight, to_string(i)));
             backgroundBox.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, to_string(i)));
         } else {
@@ -102,7 +109,7 @@ void display() {
 
     // start screen that shows message to proceed
     if (activeScreen == startScreen) {
-        string label = "Welcome to slide puzzle!";
+        string label = "Welcome to slide puzzle!";// This is a game where you will get a set of numbers in a grid pattern based on your chosen difficulty.  You will need to arrange the numbers in descending order from left to right and top down.";
         glColor3f(1,1,1);
         glRasterPos2i(250 - (4 * label.length()), 250);
         for (const char &letter : label) {
@@ -110,7 +117,7 @@ void display() {
         }
     }
 
-    if (activeScreen == playScreen) {
+    if (activeScreen == easyScreen || activeScreen == mediumScreen || activeScreen == hardScreen) {
         // Print all the boxes onto the screen
         for (Button &box: backgroundBox) {
             box.draw();
@@ -132,10 +139,21 @@ void kbd(unsigned char key, int x, int y) {
         exit(0);
     }
 
-    // go to start screen
+    // Go to screen corresponding with the difficulty
     if(activeScreen == startScreen) {
-        if (key == 115) {
-            activeScreen = playScreen;
+        if (key == 69 || key == 101) {
+            difficulty = easy;
+            activeScreen = easyScreen;
+        }
+
+        if (key == 77 || key == 109) {
+            difficulty = medium;
+            activeScreen = mediumScreen;
+        }
+
+        if (key == 72 || key == 104) {
+            difficulty = hard;
+            activeScreen = hardScreen;
         }
     }
 
