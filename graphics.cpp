@@ -1,6 +1,7 @@
 #include "graphics.h"
 #include "Button.h"
 #include <iostream>
+#include <cmath>
 #include <memory>
 #include <vector>
 using namespace std;
@@ -8,31 +9,11 @@ using namespace std;
 GLdouble width, height;
 int wd;
 
-const color yellow(1,1,0);
-const color red(1,0,0);
-const color black(0,0,0);
-
-const int totalBoxes = 25;
-double boxWidth= 65;
-double  boxHeight = 65;
-double backgroundBoxHeight = 75;
-double backgroundBoxWidth = 75;
-
-double startBox = 58.3;
-double gapCenters = 95.8;
-
-double x,y;
-
-int clickCounter = 0;
-
-vector<Button> numberBoxes;
-vector<Button> backgroundBox;
-
 enum screen {startScreen,
-            easyScreen,
-            mediumScreen,
-            hardScreen,
-            endScreen};
+    easyScreen,
+    mediumScreen,
+    hardScreen,
+    endScreen};
 screen activeScreen = startScreen;
 
 enum difficulty {
@@ -43,23 +24,64 @@ enum difficulty {
 
 difficulty difficulty;
 
+const color yellow(1,1,0);
+const color red(1,0,0);
+const color black(0,0,0);
+
+int clickCounter = 0;
+
+vector<Button> numberBoxes;
+vector<Button> backgroundBox;
+
+int totalBoxes;
+double backgroundBoxHeight;
 
 point2D startPosition(800,800);
 
 // Creates all lights and puts them into the 'lights' vector
 void initNumbers() {
+
+    if(difficulty == easy) {
+        totalBoxes = 9;
+        backgroundBoxHeight = 95;
+    }
+    if(difficulty == medium) {
+        totalBoxes = 16;
+        backgroundBoxHeight = 85;
+    }
+    if(difficulty == hard) {
+        totalBoxes = 25;
+        backgroundBoxHeight = 75;
+    }
+
+    int squareRootBoxes = sqrt(totalBoxes);
+
+
+    double backgroundBoxWidth = backgroundBoxHeight;
+    double boxWidth = backgroundBoxHeight - 10;
+    double boxHeight = boxWidth;
+
+    double startBox;
+    double gapCenters;
+
+    double x,y;
+
+    startBox = ((width - (backgroundBoxHeight * squareRootBoxes)) / (squareRootBoxes + 1)) + (startBox + backgroundBoxHeight/2);
+    gapCenters = startBox + backgroundBoxHeight/2;
+
+
     // Get all x-coordinates and y-coordinates
     for(int i = 1; i < totalBoxes + 1; ++i) {
 
         // Loop to get all x-axis
-        for(int k = 1; k < 6; ++k) {
-            if((i - k) % 5 == 0) {
+        for(int k = 1; k < sqrt(totalBoxes)+1; ++k) {
+            if((i - k) % squareRootBoxes == 0) {
                 x = startBox + (gapCenters * (k-1));
             }
         }
 
         // Set the y-axis
-        y = startBox + ((i - 1) / 5) * gapCenters;
+        y = startBox + ((i - 1) / squareRootBoxes) * gapCenters;
 
         // Create point with x and y and add light to vector
         point2D center(x,y);
@@ -117,7 +139,29 @@ void display() {
         }
     }
 
-    if (activeScreen == easyScreen || activeScreen == mediumScreen || activeScreen == hardScreen) {
+    if(activeScreen == easyScreen ) {
+        // Print all the boxes onto the screen
+        for (Button &box: backgroundBox) {
+            box.draw();
+        }
+
+        for (Button &box: numberBoxes) {
+            box.draw();
+        }
+    }
+
+    if(activeScreen == mediumScreen ) {
+        // Print all the boxes onto the screen
+        for (Button &box: backgroundBox) {
+            box.draw();
+        }
+
+        for (Button &box: numberBoxes) {
+            box.draw();
+        }
+    }
+
+    if(activeScreen == hardScreen ) {
         // Print all the boxes onto the screen
         for (Button &box: backgroundBox) {
             box.draw();
