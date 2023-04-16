@@ -18,6 +18,14 @@
 #include <GL/glut.h>
 #endif
 
+#include "Button.h"
+
+enum difficulty {
+    easy,
+    medium,
+    hard
+};
+
 // Program initialization NOT OpenGL/GLUT dependent,
 // as we haven't created a GLUT window yet
 void initNumbers();
@@ -26,7 +34,8 @@ void init();
 // Initialize OpenGL Graphics
 void InitGL();
 
-// Callback functions for GLUT
+// Fill all vectors
+void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum difficulty difficulty);
 
 // Draw the window - this is where all the GL actions are
 void display();

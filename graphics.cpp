@@ -16,30 +16,25 @@ enum screen {startScreen,
     endScreen};
 screen activeScreen = startScreen;
 
-enum difficulty {
-    easy,
-    medium,
-    hard
-};
-
-difficulty difficulty;
-
 const color yellow(1,1,0);
 const color red(1,0,0);
 const color black(0,0,0);
 
 int clickCounter = 0;
 
-vector<Button> numberBoxes;
-vector<Button> backgroundBox;
+vector<Button> numberBoxesEasy;
+vector<Button> backgroundBoxEasy;
+vector<Button> numberBoxesMedium;
+vector<Button> backgroundBoxMedium;
+vector<Button> numberBoxesHard;
+vector<Button> backgroundBoxHard;
 
-int totalBoxes;
-double backgroundBoxHeight;
 
-point2D startPosition(800,800);
 
-// Creates all lights and puts them into the 'lights' vector
-void initNumbers() {
+
+void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum difficulty difficulty) {
+    int totalBoxes;
+    double backgroundBoxHeight;
 
     if(difficulty == easy) {
         totalBoxes = 9;
@@ -55,19 +50,13 @@ void initNumbers() {
     }
 
     int squareRootBoxes = sqrt(totalBoxes);
-
-
     double backgroundBoxWidth = backgroundBoxHeight;
     double boxWidth = backgroundBoxHeight - 10;
     double boxHeight = boxWidth;
-
-    double startBox;
-    double gapCenters;
-
     double x,y;
 
-    startBox = ((width - (backgroundBoxHeight * squareRootBoxes)) / (squareRootBoxes + 1)) + (startBox + backgroundBoxHeight/2);
-    gapCenters = startBox + backgroundBoxHeight/2;
+    double startBox = ((width - (backgroundBoxHeight * squareRootBoxes)) / (squareRootBoxes + 1)) + (backgroundBoxHeight/2);
+    double gapCenters = startBox + backgroundBoxHeight/2;
 
 
     // Get all x-coordinates and y-coordinates
@@ -86,13 +75,23 @@ void initNumbers() {
         // Create point with x and y and add light to vector
         point2D center(x,y);
         if(i < totalBoxes) {
-            numberBoxes.push_back(Button(red, center, boxWidth, boxHeight, to_string(i)));
-            backgroundBox.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, to_string(i)));
+            numbers.push_back(Button(red, center, boxWidth, boxHeight, to_string(i)));
+            background.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, to_string(i)));
         } else {
-            numberBoxes.push_back(Button(red, center, boxWidth, boxHeight, " "));
-            backgroundBox.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, " "));
+            numbers.push_back(Button(red, center, boxWidth, boxHeight, " "));
+            background.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, " "));
         }
     }
+}
+
+
+// Creates all numbers and puts them into the corresponding 'numbers' vector
+void initNumbers() {
+    setNumberVectors(numberBoxesEasy, backgroundBoxEasy, easy);
+    setNumberVectors(numberBoxesMedium, backgroundBoxMedium, medium);
+    setNumberVectors(numberBoxesHard, backgroundBoxHard, hard);
+
+    glutPostRedisplay();
 }
 
 
@@ -139,39 +138,38 @@ void display() {
         }
     }
 
-    if(activeScreen == easyScreen ) {
+    if(activeScreen == easyScreen) {
         // Print all the boxes onto the screen
-        for (Button &box: backgroundBox) {
-            box.draw();
+        for (Button &easyBox: backgroundBoxEasy) {
+            easyBox.draw();
         }
 
-        for (Button &box: numberBoxes) {
-            box.draw();
+        for (Button &easyBox: numberBoxesEasy) {
+            easyBox.draw();
         }
     }
 
-    if(activeScreen == mediumScreen ) {
+    if(activeScreen == mediumScreen) {
         // Print all the boxes onto the screen
-        for (Button &box: backgroundBox) {
-            box.draw();
+        for (Button &mediumBox: backgroundBoxMedium) {
+            mediumBox.draw();
         }
 
-        for (Button &box: numberBoxes) {
-            box.draw();
+        for (Button &mediumBox: numberBoxesMedium) {
+            mediumBox.draw();
         }
     }
 
-    if(activeScreen == hardScreen ) {
+    if(activeScreen == hardScreen) {
         // Print all the boxes onto the screen
-        for (Button &box: backgroundBox) {
-            box.draw();
+        for (Button &hardBox: backgroundBoxHard) {
+            hardBox.draw();
         }
 
-        for (Button &box: numberBoxes) {
-            box.draw();
+        for (Button &hardBox: numberBoxesHard) {
+            hardBox.draw();
         }
     }
-
     glFlush();  // Render now
 }
 
@@ -186,21 +184,17 @@ void kbd(unsigned char key, int x, int y) {
     // Go to screen corresponding with the difficulty
     if(activeScreen == startScreen) {
         if (key == 69 || key == 101) {
-            difficulty = easy;
             activeScreen = easyScreen;
         }
 
         if (key == 77 || key == 109) {
-            difficulty = medium;
             activeScreen = mediumScreen;
         }
 
         if (key == 72 || key == 104) {
-            difficulty = hard;
             activeScreen = hardScreen;
         }
     }
-
 
     glutPostRedisplay();
 }
@@ -226,14 +220,30 @@ void kbdS(int key, int x, int y) {
 
 void cursor(int x, int y) {
     // Makes the background box red while overlapping with the background box
-    for (int i = 0; i < numberBoxes.size(); i++){
-        if (numberBoxes[i].isOverlapping(x,y)) {
-            numberBoxes[i].hover();
-            backgroundBox[i].hover();
+    for (int i = 0; i < numberBoxesEasy.size(); i++){
+        if (numberBoxesEasy[i].isOverlapping(x,y)) {
+            numberBoxesEasy[i].hover();
         }
         else {
-            numberBoxes[i].release();
-            backgroundBox[i].release();
+            numberBoxesEasy[i].release();
+        }
+    }
+
+    for (int i = 0; i < numberBoxesMedium.size(); i++){
+        if (numberBoxesMedium[i].isOverlapping(x,y)) {
+            numberBoxesMedium[i].hover();
+        }
+        else {
+            numberBoxesMedium[i].release();
+        }
+    }
+
+    for (int i = 0; i < numberBoxesHard.size(); i++){
+        if (numberBoxesHard[i].isOverlapping(x,y)) {
+            numberBoxesHard[i].hover();
+        }
+        else {
+            numberBoxesHard[i].release();
         }
     }
 
@@ -245,10 +255,15 @@ void cursor(int x, int y) {
 void mouse(int button, int state, int x, int y) {
 
     // TODO: Change to select box
-    for (int i = 0; i < numberBoxes.size(); i++) {
-        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxes[i].isOverlapping(x,y)) {
-            numberBoxes[i].pressDown();
-            backgroundBox[i].pressDown();
+    for (int i = 0; i < numberBoxesEasy.size(); i++) {
+        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesEasy[i].isOverlapping(x,y)) {
+            numberBoxesEasy[i].pressDown();
+        }
+        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesMedium[i].isOverlapping(x,y)) {
+            numberBoxesMedium[i].pressDown();
+        }
+        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesHard[i].isOverlapping(x,y)) {
+            numberBoxesHard[i].pressDown();
         }
     }
 
@@ -289,7 +304,6 @@ int main(int argc, char** argv) {
 
     // handles mouse click
     glutMouseFunc(mouse);
-
 
     // Enter the event-processing loop
     glutMainLoop();
