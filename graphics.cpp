@@ -16,9 +16,9 @@ enum screen {startScreen,
     endScreen};
 screen activeScreen = startScreen;
 
-const color yellow(1,1,0);
-const color red(1,0,0);
-const color black(0,0,0);
+const color red (1,0,0);
+const color blue(0, 0, 1);
+const color green(0, 1, 0);
 
 int clickCounter = 0;
 
@@ -75,10 +75,10 @@ void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum 
         // Create point with x and y and add light to vector
         point2D center(x,y);
         if(i < totalBoxes) {
-            numbers.push_back(Button(red, center, boxWidth, boxHeight, to_string(i)));
+            numbers.push_back(Button(blue, center, boxWidth, boxHeight, to_string(i)));
             background.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, to_string(i)));
         } else {
-            numbers.push_back(Button(red, center, boxWidth, boxHeight, " "));
+            numbers.push_back(Button(blue, center, boxWidth, boxHeight, " "));
             background.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, " "));
         }
     }
@@ -105,6 +105,16 @@ void init() {
 void initGL() {
     // Set "clearing" or background color
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
+}
+
+void checkCorrect(vector<Button> &numbers, vector<Button> &background){
+    for(int i = 0; i < numbers.size(); ++i) {
+        if(numbers[i].label == background[i].label) {
+            background[i].setColor(green);
+        } else {
+            background[i].setColor(red);
+        }
+    }
 }
 
 /* Handler for window-repaint event. Call back when the window first appears and
@@ -147,6 +157,7 @@ void display() {
         for (Button &easyBox: numberBoxesEasy) {
             easyBox.draw();
         }
+        checkCorrect(numberBoxesEasy, backgroundBoxEasy);
     }
 
     if(activeScreen == mediumScreen) {
@@ -158,6 +169,7 @@ void display() {
         for (Button &mediumBox: numberBoxesMedium) {
             mediumBox.draw();
         }
+        checkCorrect(numberBoxesMedium, backgroundBoxMedium);
     }
 
     if(activeScreen == hardScreen) {
@@ -169,6 +181,7 @@ void display() {
         for (Button &hardBox: numberBoxesHard) {
             hardBox.draw();
         }
+        checkCorrect(numberBoxesHard, backgroundBoxHard);
     }
     glFlush();  // Render now
 }
@@ -255,7 +268,7 @@ void cursor(int x, int y) {
 void mouse(int button, int state, int x, int y) {
 
     // TODO: Change to select box
-    for (int i = 0; i < numberBoxesEasy.size(); i++) {
+    for (int i = 0; i < numberBoxesHard.size(); i++) {
         if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesEasy[i].isOverlapping(x,y)) {
             numberBoxesEasy[i].pressDown();
         }
@@ -266,6 +279,7 @@ void mouse(int button, int state, int x, int y) {
             numberBoxesHard[i].pressDown();
         }
     }
+
 
     glutPostRedisplay();
 }

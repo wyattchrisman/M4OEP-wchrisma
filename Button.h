@@ -6,13 +6,15 @@
 
 class Button : public Quad {
 private:
-    std::string label;
+
     color originalFill, hoverFill, pressFill;
 
 public:
+    std::string label;
     Button(color fill, point2D center, unsigned int width, unsigned int height, std::string label);
     /* Uses OpenGL to draw the box with the label on top */
     virtual void draw() const override;
+
 
     /* Returns true if the coordinate is inside the box */
     bool isOverlapping(int x, int y) const;

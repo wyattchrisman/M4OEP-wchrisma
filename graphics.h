@@ -37,6 +37,9 @@ void InitGL();
 // Fill all vectors
 void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum difficulty difficulty);
 
+// Check if square is in the correct position, if yes, set background green, otherwise keep red
+void checkCorrect(vector<Button> &numbers, vector<Button> &background);
+
 // Draw the window - this is where all the GL actions are
 void display();
 
