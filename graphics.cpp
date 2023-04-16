@@ -30,23 +30,33 @@ vector<Button> numberBoxesHard;
 vector<Button> backgroundBoxHard;
 
 
-
-
 void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum difficulty difficulty) {
+
+    vector<int> nums;
+
     int totalBoxes;
     double backgroundBoxHeight;
 
     if(difficulty == easy) {
         totalBoxes = 9;
         backgroundBoxHeight = 95;
+        for(int i = 1; i < totalBoxes; ++i) {
+            nums.push_back(i);
+        }
     }
     if(difficulty == medium) {
         totalBoxes = 16;
         backgroundBoxHeight = 85;
+        for(int i = 1; i < totalBoxes; ++i) {
+            nums.push_back(i);
+        }
     }
     if(difficulty == hard) {
         totalBoxes = 25;
         backgroundBoxHeight = 75;
+        for(int i = 1; i < totalBoxes; ++i) {
+            nums.push_back(i);
+        }
     }
 
     int squareRootBoxes = sqrt(totalBoxes);
@@ -58,7 +68,6 @@ void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum 
     double startBox = ((width - (backgroundBoxHeight * squareRootBoxes)) / (squareRootBoxes + 1)) + (backgroundBoxHeight/2);
     double gapCenters = startBox + backgroundBoxHeight/2;
 
-
     // Get all x-coordinates and y-coordinates
     for(int i = 1; i < totalBoxes + 1; ++i) {
 
@@ -66,16 +75,24 @@ void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum 
         for(int k = 1; k < sqrt(totalBoxes)+1; ++k) {
             if((i - k) % squareRootBoxes == 0) {
                 x = startBox + (gapCenters * (k-1));
+                break;
             }
         }
 
         // Set the y-axis
         y = startBox + ((i - 1) / squareRootBoxes) * gapCenters;
 
+
         // Create point with x and y and add light to vector
         point2D center(x,y);
         if(i < totalBoxes) {
-            numbers.push_back(Button(blue, center, boxWidth, boxHeight, to_string(i)));
+            // Get rand number for each number
+            int randNum = rand() % nums.size();
+            int numToAdd = nums[randNum];
+            remove(nums.begin(),nums.end(), numToAdd);
+            nums.resize(nums.size()-1);
+
+            numbers.push_back(Button(blue, center, boxWidth, boxHeight, to_string(numToAdd)));
             background.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, to_string(i)));
         } else {
             numbers.push_back(Button(blue, center, boxWidth, boxHeight, " "));
@@ -183,6 +200,7 @@ void display() {
         }
         checkCorrect(numberBoxesHard, backgroundBoxHard);
     }
+
     glFlush();  // Render now
 }
 
