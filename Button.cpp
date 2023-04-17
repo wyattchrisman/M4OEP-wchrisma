@@ -22,8 +22,6 @@ void Button::draw() const {
 
 /* Returns true if the coordinate is inside the box */
 bool Button::isOverlapping(int x, int y) const {
-    // TODO: Implement
-
     bool overlap = false;
 
     // Create all rectangle left and right variables

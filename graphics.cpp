@@ -1,6 +1,6 @@
 #include "graphics.h"
 #include "Button.h"
-#include <iostream>
+#include <time.h>
 #include <cmath>
 #include <memory>
 #include <vector>
@@ -9,6 +9,7 @@ using namespace std;
 GLdouble width, height;
 int wd;
 
+// Create enum for all screens
 enum screen {startScreen,
     easyScreen,
     mediumScreen,
@@ -16,12 +17,19 @@ enum screen {startScreen,
     endScreen};
 screen activeScreen = startScreen;
 
+// Create all colors used
 const color red (1,0,0);
 const color blue(0, 0, 1);
 const color green(0, 1, 0);
 
+// Create move count
 int moveCount = 0;
 
+// Variables for time
+time_t startTime;
+time_t endTime;
+
+// Create vectors for all game modes
 vector<Button> numberBoxesEasy;
 vector<Button> backgroundBoxEasy;
 vector<Button> numberBoxesMedium;
@@ -29,12 +37,16 @@ vector<Button> backgroundBoxMedium;
 vector<Button> numberBoxesHard;
 vector<Button> backgroundBoxHard;
 
+// Fill given vectors with all their numbers and respective background based on difficulty
 void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum difficulty difficulty) {
+    // Vector for numbers to be chosen from
     vector<int> nums;
 
+    // Create needed variables
     int totalBoxes;
     double backgroundBoxHeight;
 
+    // Add nums needed for respective game difficulties
     if(difficulty == easy) {
         totalBoxes = 9;
         backgroundBoxHeight = 95;
@@ -57,16 +69,19 @@ void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum 
         }
     }
 
+    // Create all variables needed to create each box
     int squareRootBoxes = sqrt(totalBoxes);
     double backgroundBoxWidth = backgroundBoxHeight;
     double boxWidth = backgroundBoxHeight - 10;
     double boxHeight = boxWidth;
     double x,y;
 
+    // Set start coordinate for first box
     double startBox = ((width - (backgroundBoxHeight * squareRootBoxes)) / (squareRootBoxes + 1)) + (backgroundBoxHeight/2);
+    // Get gap between the centers of boxes
     double gapCenters = startBox + backgroundBoxHeight/2;
 
-    // Get all x-coordinates and y-coordinates
+    // Get all x-coordinates and y-coordinates and add button to vector
     for(int i = 1; i < totalBoxes + 1; ++i) {
 
         // Loop to get all x-axis
@@ -90,9 +105,11 @@ void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum 
             remove(nums.begin(),nums.end(), numToAdd);
             nums.resize(nums.size()-1);
 
+            // Add to vector
             numbers.push_back(Button(blue, center, boxWidth, boxHeight, to_string(numToAdd)));
             background.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, to_string(i)));
         } else {
+            // Add last box as blank
             numbers.push_back(Button(blue, center, boxWidth, boxHeight, ""));
             background.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, ""));
         }
@@ -103,12 +120,14 @@ void swap(vector<Button> &vec, int firstNum, int secondNum){
     // Create temp and set all values to first num
     Button temp;
 
+    // Swap labels for buttons
     temp.label = vec[firstNum].label;
     vec[firstNum].label = vec[secondNum].label;
     vec[secondNum].label = temp.label;
     ++moveCount;
 }
 
+// Check if the game is over by checking if there are 0 incorrect boxes
 void checkEnd(vector<Button> background) {
     int incorrectCount = 0;
     for(int i = 0; i < background.size(); ++i) {
@@ -117,7 +136,8 @@ void checkEnd(vector<Button> background) {
         }
     }
     if(incorrectCount == 0) {
-        activeScreen == endScreen;
+        activeScreen = endScreen;
+        time(&endTime);
     }
 }
 
@@ -182,15 +202,64 @@ void display() {
 
     // start screen that shows message to proceed
     if (activeScreen == startScreen) {
-        string label = "Welcome to slide puzzle!";// This is a game where you will get a set of numbers in a grid pattern based on your chosen difficulty.  You will need to arrange the numbers in descending order from left to right and top down.";
+        // Add instructions and print to screen
+        string label = "Welcome to slide puzzle!";
+        string label2 = "This is a game where you will get a set of numbers in";
+        string label3 = "a grid pattern based on your chosen difficulty.";
+        string label4 = "You will need to arrange the numbers in descending order";
+        string label5 = "from left to right and top down. ";
+        string label6 = "You will use your left, right, up and down arrows";
+        string label7 = "To move the blank box around your screen.";
+        string label8 = "You will choose from easy: (3x3), medium: (4x4) or hard: (5x5)";
+        string label9 = "Enter 'e' for easy, 'm' for medium, or 'h' for hard.";
         glColor3f(1,1,1);
-        glRasterPos2i(250 - (4 * label.length()), 250);
+        glRasterPos2i(250 - (4 * label.length()), 50);
         for (const char &letter : label) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+        glRasterPos2i(130 - (4 * label.length()), 100);
+        for (const char &letter : label2) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+        glRasterPos2i(150 - (4 * label.length()), 150);
+        for (const char &letter : label3) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+        glRasterPos2i(120 - (4 * label.length()), 200);
+        for (const char &letter : label4) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+        glRasterPos2i(220 - (4 * label.length()), 250);
+        for (const char &letter : label5) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+        glRasterPos2i(150 - (4 * label.length()), 300);
+        for (const char &letter : label6) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+        glRasterPos2i(180 - (4 * label.length()), 350);
+        for (const char &letter : label7) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+        glRasterPos2i(100 - (4 * label.length()), 400);
+        for (const char &letter : label8) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+        glRasterPos2i(140 - (4 * label.length()), 450);
+        for (const char &letter : label9) {
             glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
         }
     }
 
     if(activeScreen == easyScreen) {
+        // Print out active number of moves
+        string movesLabel = "Number of moves: " + to_string(moveCount);
+        glColor3f(1,1,1);
+        glRasterPos2i(10,15);
+        for (const char &letter : movesLabel) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+
         // Print all the boxes onto the screen
         for (Button &easyBox: backgroundBoxEasy) {
             easyBox.draw();
@@ -199,10 +268,19 @@ void display() {
         for (Button &easyBox: numberBoxesEasy) {
             easyBox.draw();
         }
+        // Check if game is over
         checkCorrect(numberBoxesEasy, backgroundBoxEasy);
     }
 
     if(activeScreen == mediumScreen) {
+        // Print out active number of moves
+        string movesLabel = "Number of moves: " + to_string(moveCount);
+        glColor3f(1,1,1);
+        glRasterPos2i(10,15);
+        for (const char &letter : movesLabel) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+
         // Print all the boxes onto the screen
         for (Button &mediumBox: backgroundBoxMedium) {
             mediumBox.draw();
@@ -211,10 +289,19 @@ void display() {
         for (Button &mediumBox: numberBoxesMedium) {
             mediumBox.draw();
         }
+        // Check if game is over
         checkCorrect(numberBoxesMedium, backgroundBoxMedium);
     }
 
     if(activeScreen == hardScreen) {
+        // Print out active number of moves
+        string movesLabel = "Number of moves: " + to_string(moveCount);
+        glColor3f(1,1,1);
+        glRasterPos2i(10,15);
+        for (const char &letter : movesLabel) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+
         // Print all the boxes onto the screen
         for (Button &hardBox: backgroundBoxHard) {
             hardBox.draw();
@@ -223,14 +310,22 @@ void display() {
         for (Button &hardBox: numberBoxesHard) {
             hardBox.draw();
         }
+        // Check if game is over
         checkCorrect(numberBoxesHard, backgroundBoxHard);
     }
 
     if(activeScreen == endScreen) {
-        string label = "YOU WIN! It took you " + to_string(moveCount) + " moves to complete.";
+        // Calculate time taken and print winning statements
+        long totalTime = (endTime - startTime);
+        string label = "YOU WIN! It took you " + to_string(moveCount) + " moves to complete!";
+        string label2 = "It took " + to_string(totalTime) + " seconds to finish!";
         glColor3f(1,1,1);
         glRasterPos2i(250 - (4 * label.length()), 250);
         for (const char &letter : label) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+        glRasterPos2i(250 - (4 * label.length()), 200);
+        for (const char &letter : label2) {
             glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
         }
     }
@@ -250,14 +345,17 @@ void kbd(unsigned char key, int x, int y) {
     if(activeScreen == startScreen) {
         if (key == 69 || key == 101) {
             activeScreen = easyScreen;
+            time(&startTime);
         }
 
         if (key == 77 || key == 109) {
             activeScreen = mediumScreen;
+            time(&startTime);
         }
 
         if (key == 72 || key == 104) {
             activeScreen = hardScreen;
+            time(&startTime);
         }
     }
 
@@ -277,14 +375,12 @@ void kbdS(int key, int x, int y) {
                    if(numberBoxesEasy[i].label == "" && !swapped && i != 6 && i != 7 && i != 8){
                        swap(numberBoxesEasy, i, i+swapNum);
                        swapped = true;
-                       cout << "I: " << i << " Swap: " << i+swapNum << endl;
                        break;
                    }
                    else {break;}
                case GLUT_KEY_LEFT:
                    if(numberBoxesEasy[i].label == "" && i != 0 && i != 3 && i != 6){
                        swap(numberBoxesEasy, i, i-1);
-                       cout << "I: " << i << " Swap: " << i-1<< endl;
                        break;
                    }
                    else {break;}
@@ -292,19 +388,18 @@ void kbdS(int key, int x, int y) {
                    if(numberBoxesEasy[i].label == "" && !swapped && i != 2 && i != 5 && i != 8){
                        swap(numberBoxesEasy, i, i+1);
                        swapped = true;
-                       cout << "I: " << i << " Swap: " << i+1 << endl;
                        break;
                    }
                    else {break;}
                case GLUT_KEY_UP:
                    if(numberBoxesEasy[i].label == "" && i != 0 && i != 1 && i != 2){
                        swap(numberBoxesEasy, i, i-swapNum);
-                       cout << "I: " << i << " Swap: " << i-swapNum << endl;
                        break;
                    }
                    else {break;}
            }
        }
+       checkEnd(backgroundBoxEasy);
     } else if(activeScreen == mediumScreen) {
         swapNum = 4;
         swapped = false;
@@ -314,14 +409,12 @@ void kbdS(int key, int x, int y) {
                     if(numberBoxesMedium[i].label == "" && !swapped && i != 12 && i != 13 && i != 14 && i != 15){
                         swap(numberBoxesMedium, i, i+swapNum);
                         swapped = true;
-                        cout << "I: " << i << " Swap: " << i+swapNum << endl;
                         break;
                     }
                     else {break;}
                 case GLUT_KEY_LEFT:
                     if(numberBoxesMedium[i].label == "" && i != 0 && i != 4 && i != 8 && i != 12){
                         swap(numberBoxesMedium, i, i-1);
-                        cout << "I: " << i << " Swap: " << i-1<< endl;
                         break;
                     }
                     else {break;}
@@ -329,19 +422,18 @@ void kbdS(int key, int x, int y) {
                     if(numberBoxesMedium[i].label == "" && !swapped && i != 3 && i != 7 && i != 11 && i != 15){
                         swap(numberBoxesMedium, i, i+1);
                         swapped = true;
-                        cout << "I: " << i << " Swap: " << i+1 << endl;
                         break;
                     }
                     else {break;}
                 case GLUT_KEY_UP:
                     if(numberBoxesMedium[i].label == "" && i != 0 && i != 1 && i != 2 && i != 3){
                         swap(numberBoxesMedium, i, i-swapNum);
-                        cout << "I: " << i << " Swap: " << i-swapNum << endl;
                         break;
                     }
                     else {break;}
             }
         }
+        checkEnd(backgroundBoxMedium);
     } else {
         swapNum = 5;
         swapped = false;
@@ -351,14 +443,12 @@ void kbdS(int key, int x, int y) {
                     if(numberBoxesHard[i].label == "" && !swapped && i != 20 && i != 21 && i != 22 && i != 23 && i != 24){
                         swap(numberBoxesHard, i, i+swapNum);
                         swapped = true;
-                        cout << "I: " << i << " Swap: " << i+swapNum << endl;
                         break;
                     }
                     else {break;}
                 case GLUT_KEY_LEFT:
                     if(numberBoxesHard[i].label == "" && i != 0 && i != 5 && i != 10 && i != 15 && i != 20){
                         swap(numberBoxesHard, i, i-1);
-                        cout << "I: " << i << " Swap: " << i-1<< endl;
                         break;
                     }
                     else {break;}
@@ -366,53 +456,26 @@ void kbdS(int key, int x, int y) {
                     if(numberBoxesHard[i].label == "" && !swapped && i != 4 && i != 9 && i != 14 && i != 19 && i != 24){
                         swap(numberBoxesHard, i, i+1);
                         swapped = true;
-                        cout << "I: " << i << " Swap: " << i+1 << endl;
                         break;
                     }
                     else {break;}
                 case GLUT_KEY_UP:
                     if(numberBoxesHard[i].label == "" && i != 0 && i != 1 && i != 2 && i != 3 && i != 4){
                         swap(numberBoxesHard, i, i-swapNum);
-                        cout << "I: " << i << " Swap: " << i-swapNum << endl;
                         break;
                     }
                     else {break;}
             }
         }
-
+        checkEnd(backgroundBoxHard);
     }
+
 
     glutPostRedisplay();
 }
 
 void cursor(int x, int y) {
-    // Makes the background box red while overlapping with the background box
-//    for (int i = 0; i < numberBoxesEasy.size(); i++){
-//        if (numberBoxesEasy[i].isOverlapping(x,y)) {
-//            numberBoxesEasy[i].hover();
-//        }
-//        else {
-//            numberBoxesEasy[i].release();
-//        }
-//    }
-//
-//    for (int i = 0; i < numberBoxesMedium.size(); i++){
-//        if (numberBoxesMedium[i].isOverlapping(x,y)) {
-//            numberBoxesMedium[i].hover();
-//        }
-//        else {
-//            numberBoxesMedium[i].release();
-//        }
-//    }
-//
-//    for (int i = 0; i < numberBoxesHard.size(); i++){
-//        if (numberBoxesHard[i].isOverlapping(x,y)) {
-//            numberBoxesHard[i].hover();
-//        }
-//        else {
-//            numberBoxesHard[i].release();
-//        }
-//    }
+
 
     glutPostRedisplay();
 }
@@ -420,22 +483,6 @@ void cursor(int x, int y) {
 // button will be GLUT_LEFT_BUTTON or GLUT_RIGHT_BUTTON
 // state will be GLUT_UP or GLUT_DOWN
 void mouse(int button, int state, int x, int y) {
-
-    // TODO: Change to select box
-//    for (int i = 0; i < numberBoxesHard.size(); i++) {
-//        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesEasy[i].isOverlapping(x,y)) {
-//            numberBoxesEasy[i].pressDown();
-//            numberBoxesEasy[i].selected = true;
-//        }
-//        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesMedium[i].isOverlapping(x,y)) {
-//            numberBoxesMedium[i].pressDown();
-//            numberBoxesMedium[i].selected = true;
-//        }
-//        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesHard[i].isOverlapping(x,y)) {
-//            numberBoxesHard[i].pressDown();
-//            numberBoxesHard[i].selected = true;
-//        }
-//    }
 
 
     glutPostRedisplay();

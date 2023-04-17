@@ -11,7 +11,6 @@ private:
 
 public:
     std::string label;
-    unsigned int width, height;
     Button();
     Button(color fill, point2D center, unsigned int width, unsigned int height, std::string label);
     /* Uses OpenGL to draw the box with the label on top */

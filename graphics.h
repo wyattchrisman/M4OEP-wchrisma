@@ -35,9 +35,11 @@ void swap(vector<Button> &vec, int firstNum, int secondNum);
 // Check if all pieces are in correct spot
 void checkEnd(vector<Button> background);
 
+// Adds all number buttons to the vectors
+void initNumbers();
+
 // Program initialization NOT OpenGL/GLUT dependent,
 // as we haven't created a GLUT window yet
-void initNumbers();
 void init();
 
 // Initialize OpenGL Graphics
