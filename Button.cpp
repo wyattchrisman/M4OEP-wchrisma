@@ -2,6 +2,8 @@
 #include "graphics.h"
 using namespace std;
 
+Button::Button() {}
+
 Button::Button(color fill, point2D center, unsigned int width, unsigned int height, std::string label) : Quad(fill, center, width, height) {
     this->label = label;
     originalFill = fill;

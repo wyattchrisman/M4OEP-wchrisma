@@ -20,7 +20,7 @@ const color red (1,0,0);
 const color blue(0, 0, 1);
 const color green(0, 1, 0);
 
-int clickCounter = 0;
+int moveCount = 0;
 
 vector<Button> numberBoxesEasy;
 vector<Button> backgroundBoxEasy;
@@ -29,9 +29,7 @@ vector<Button> backgroundBoxMedium;
 vector<Button> numberBoxesHard;
 vector<Button> backgroundBoxHard;
 
-
 void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum difficulty difficulty) {
-
     vector<int> nums;
 
     int totalBoxes;
@@ -95,9 +93,31 @@ void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum 
             numbers.push_back(Button(blue, center, boxWidth, boxHeight, to_string(numToAdd)));
             background.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, to_string(i)));
         } else {
-            numbers.push_back(Button(blue, center, boxWidth, boxHeight, " "));
-            background.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, " "));
+            numbers.push_back(Button(blue, center, boxWidth, boxHeight, ""));
+            background.push_back(Button(red, center, backgroundBoxWidth, backgroundBoxHeight, ""));
         }
+    }
+}
+
+void swap(vector<Button> &vec, int firstNum, int secondNum){
+    // Create temp and set all values to first num
+    Button temp;
+
+    temp.label = vec[firstNum].label;
+    vec[firstNum].label = vec[secondNum].label;
+    vec[secondNum].label = temp.label;
+    ++moveCount;
+}
+
+void checkEnd(vector<Button> background) {
+    int incorrectCount = 0;
+    for(int i = 0; i < background.size(); ++i) {
+        if(background[i].getRed() == 1) {
+            ++incorrectCount;
+        }
+    }
+    if(incorrectCount == 0) {
+        activeScreen == endScreen;
     }
 }
 
@@ -125,9 +145,14 @@ void initGL() {
 }
 
 void checkCorrect(vector<Button> &numbers, vector<Button> &background){
+    int numCorrect;
     for(int i = 0; i < numbers.size(); ++i) {
         if(numbers[i].label == background[i].label) {
             background[i].setColor(green);
+            ++numCorrect;
+            if(numCorrect == numbers.size()){
+                activeScreen = endScreen;
+            }
         } else {
             background[i].setColor(red);
         }
@@ -201,6 +226,15 @@ void display() {
         checkCorrect(numberBoxesHard, backgroundBoxHard);
     }
 
+    if(activeScreen == endScreen) {
+        string label = "YOU WIN! It took you " + to_string(moveCount) + " moves to complete.";
+        glColor3f(1,1,1);
+        glRasterPos2i(250 - (4 * label.length()), 250);
+        for (const char &letter : label) {
+            glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
+        }
+    }
+
     glFlush();  // Render now
 }
 
@@ -231,19 +265,121 @@ void kbd(unsigned char key, int x, int y) {
 }
 
 void kbdS(int key, int x, int y) {
-    switch(key) {
-        case GLUT_KEY_DOWN:
+    int swapNum;
 
-            break;
-        case GLUT_KEY_LEFT:
+    bool swapped = false;
+    if(activeScreen == easyScreen) {
+       swapNum = 3;
+       swapped = false;
+       for(int i = 0; i < numberBoxesEasy.size(); ++i) {
+           switch(key) {
+               case GLUT_KEY_DOWN:
+                   if(numberBoxesEasy[i].label == "" && !swapped && i != 6 && i != 7 && i != 8){
+                       swap(numberBoxesEasy, i, i+swapNum);
+                       swapped = true;
+                       cout << "I: " << i << " Swap: " << i+swapNum << endl;
+                       break;
+                   }
+                   else {break;}
+               case GLUT_KEY_LEFT:
+                   if(numberBoxesEasy[i].label == "" && i != 0 && i != 3 && i != 6){
+                       swap(numberBoxesEasy, i, i-1);
+                       cout << "I: " << i << " Swap: " << i-1<< endl;
+                       break;
+                   }
+                   else {break;}
+               case GLUT_KEY_RIGHT:
+                   if(numberBoxesEasy[i].label == "" && !swapped && i != 2 && i != 5 && i != 8){
+                       swap(numberBoxesEasy, i, i+1);
+                       swapped = true;
+                       cout << "I: " << i << " Swap: " << i+1 << endl;
+                       break;
+                   }
+                   else {break;}
+               case GLUT_KEY_UP:
+                   if(numberBoxesEasy[i].label == "" && i != 0 && i != 1 && i != 2){
+                       swap(numberBoxesEasy, i, i-swapNum);
+                       cout << "I: " << i << " Swap: " << i-swapNum << endl;
+                       break;
+                   }
+                   else {break;}
+           }
+       }
+    } else if(activeScreen == mediumScreen) {
+        swapNum = 4;
+        swapped = false;
+        for(int i = 0; i < numberBoxesMedium.size(); ++i) {
+            switch(key) {
+                case GLUT_KEY_DOWN:
+                    if(numberBoxesMedium[i].label == "" && !swapped && i != 12 && i != 13 && i != 14 && i != 15){
+                        swap(numberBoxesMedium, i, i+swapNum);
+                        swapped = true;
+                        cout << "I: " << i << " Swap: " << i+swapNum << endl;
+                        break;
+                    }
+                    else {break;}
+                case GLUT_KEY_LEFT:
+                    if(numberBoxesMedium[i].label == "" && i != 0 && i != 4 && i != 8 && i != 12){
+                        swap(numberBoxesMedium, i, i-1);
+                        cout << "I: " << i << " Swap: " << i-1<< endl;
+                        break;
+                    }
+                    else {break;}
+                case GLUT_KEY_RIGHT:
+                    if(numberBoxesMedium[i].label == "" && !swapped && i != 3 && i != 7 && i != 11 && i != 15){
+                        swap(numberBoxesMedium, i, i+1);
+                        swapped = true;
+                        cout << "I: " << i << " Swap: " << i+1 << endl;
+                        break;
+                    }
+                    else {break;}
+                case GLUT_KEY_UP:
+                    if(numberBoxesMedium[i].label == "" && i != 0 && i != 1 && i != 2 && i != 3){
+                        swap(numberBoxesMedium, i, i-swapNum);
+                        cout << "I: " << i << " Swap: " << i-swapNum << endl;
+                        break;
+                    }
+                    else {break;}
+            }
+        }
+    } else {
+        swapNum = 5;
+        swapped = false;
+        for(int i = 0; i < numberBoxesHard.size(); ++i) {
+            switch(key) {
+                case GLUT_KEY_DOWN:
+                    if(numberBoxesHard[i].label == "" && !swapped && i != 20 && i != 21 && i != 22 && i != 23 && i != 24){
+                        swap(numberBoxesHard, i, i+swapNum);
+                        swapped = true;
+                        cout << "I: " << i << " Swap: " << i+swapNum << endl;
+                        break;
+                    }
+                    else {break;}
+                case GLUT_KEY_LEFT:
+                    if(numberBoxesHard[i].label == "" && i != 0 && i != 5 && i != 10 && i != 15 && i != 20){
+                        swap(numberBoxesHard, i, i-1);
+                        cout << "I: " << i << " Swap: " << i-1<< endl;
+                        break;
+                    }
+                    else {break;}
+                case GLUT_KEY_RIGHT:
+                    if(numberBoxesHard[i].label == "" && !swapped && i != 4 && i != 9 && i != 14 && i != 19 && i != 24){
+                        swap(numberBoxesHard, i, i+1);
+                        swapped = true;
+                        cout << "I: " << i << " Swap: " << i+1 << endl;
+                        break;
+                    }
+                    else {break;}
+                case GLUT_KEY_UP:
+                    if(numberBoxesHard[i].label == "" && i != 0 && i != 1 && i != 2 && i != 3 && i != 4){
+                        swap(numberBoxesHard, i, i-swapNum);
+                        cout << "I: " << i << " Swap: " << i-swapNum << endl;
+                        break;
+                    }
+                    else {break;}
+            }
+        }
 
-            break;
-        case GLUT_KEY_RIGHT:
-
-            break;
-        case GLUT_KEY_UP:
-
-            break;
     }
 
     glutPostRedisplay();
@@ -251,32 +387,32 @@ void kbdS(int key, int x, int y) {
 
 void cursor(int x, int y) {
     // Makes the background box red while overlapping with the background box
-    for (int i = 0; i < numberBoxesEasy.size(); i++){
-        if (numberBoxesEasy[i].isOverlapping(x,y)) {
-            numberBoxesEasy[i].hover();
-        }
-        else {
-            numberBoxesEasy[i].release();
-        }
-    }
-
-    for (int i = 0; i < numberBoxesMedium.size(); i++){
-        if (numberBoxesMedium[i].isOverlapping(x,y)) {
-            numberBoxesMedium[i].hover();
-        }
-        else {
-            numberBoxesMedium[i].release();
-        }
-    }
-
-    for (int i = 0; i < numberBoxesHard.size(); i++){
-        if (numberBoxesHard[i].isOverlapping(x,y)) {
-            numberBoxesHard[i].hover();
-        }
-        else {
-            numberBoxesHard[i].release();
-        }
-    }
+//    for (int i = 0; i < numberBoxesEasy.size(); i++){
+//        if (numberBoxesEasy[i].isOverlapping(x,y)) {
+//            numberBoxesEasy[i].hover();
+//        }
+//        else {
+//            numberBoxesEasy[i].release();
+//        }
+//    }
+//
+//    for (int i = 0; i < numberBoxesMedium.size(); i++){
+//        if (numberBoxesMedium[i].isOverlapping(x,y)) {
+//            numberBoxesMedium[i].hover();
+//        }
+//        else {
+//            numberBoxesMedium[i].release();
+//        }
+//    }
+//
+//    for (int i = 0; i < numberBoxesHard.size(); i++){
+//        if (numberBoxesHard[i].isOverlapping(x,y)) {
+//            numberBoxesHard[i].hover();
+//        }
+//        else {
+//            numberBoxesHard[i].release();
+//        }
+//    }
 
     glutPostRedisplay();
 }
@@ -286,17 +422,20 @@ void cursor(int x, int y) {
 void mouse(int button, int state, int x, int y) {
 
     // TODO: Change to select box
-    for (int i = 0; i < numberBoxesHard.size(); i++) {
-        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesEasy[i].isOverlapping(x,y)) {
-            numberBoxesEasy[i].pressDown();
-        }
-        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesMedium[i].isOverlapping(x,y)) {
-            numberBoxesMedium[i].pressDown();
-        }
-        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesHard[i].isOverlapping(x,y)) {
-            numberBoxesHard[i].pressDown();
-        }
-    }
+//    for (int i = 0; i < numberBoxesHard.size(); i++) {
+//        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesEasy[i].isOverlapping(x,y)) {
+//            numberBoxesEasy[i].pressDown();
+//            numberBoxesEasy[i].selected = true;
+//        }
+//        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesMedium[i].isOverlapping(x,y)) {
+//            numberBoxesMedium[i].pressDown();
+//            numberBoxesMedium[i].selected = true;
+//        }
+//        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && numberBoxesHard[i].isOverlapping(x,y)) {
+//            numberBoxesHard[i].pressDown();
+//            numberBoxesHard[i].selected = true;
+//        }
+//    }
 
 
     glutPostRedisplay();

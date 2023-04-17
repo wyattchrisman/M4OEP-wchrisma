@@ -29,6 +29,12 @@ enum difficulty {
 // Fill all vectors
 void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum difficulty difficulty);
 
+// Swap two elements in vector
+void swap(vector<Button> &vec, int firstNum, int secondNum);
+
+// Check if all pieces are in correct spot
+void checkEnd(vector<Button> background);
+
 // Program initialization NOT OpenGL/GLUT dependent,
 // as we haven't created a GLUT window yet
 void initNumbers();
