@@ -30,8 +30,7 @@ Requirements
     * Citations for any code not written by you or the instructor 
     * The grade you think you have earned, based on the grading rubric below, with justification
     |Module 4 Topic Added||
-  * Your main program should have a clear and complex purpose. The goals and functionality of your program should inform the development and design of your class(es) and other concepts. You are highly encouraged to plan and design your main.cpp functionality before writing your other files. Put an add_executable line in CMakeLists.txt to create an executable for your main program. The program should be interactive and all user input must be validated.
-
+  * Your main program should have a clear and complex purpose. The goals and functionality of your program should inform the development and design of your program, including which listeners and timers you choose to use. The program should be interactive and all user input must be validated.
 
 | Grading Category                      | Points Deserved | Reasoning                                                                                                                                                 | 
 |---------------------------------------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|

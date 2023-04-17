@@ -1,6 +1,7 @@
 #include "graphics.h"
 #include "Button.h"
 #include <time.h>
+#include <iostream>
 #include <cmath>
 #include <memory>
 #include <vector>
@@ -127,23 +128,10 @@ void swap(vector<Button> &vec, int firstNum, int secondNum){
     ++moveCount;
 }
 
-// Check if the game is over by checking if there are 0 incorrect boxes
-void checkEnd(vector<Button> background) {
-    int incorrectCount = 0;
-    for(int i = 0; i < background.size(); ++i) {
-        if(background[i].getRed() == 1) {
-            ++incorrectCount;
-        }
-    }
-    if(incorrectCount == 0) {
-        activeScreen = endScreen;
-        time(&endTime);
-    }
-}
-
 
 // Creates all numbers and puts them into the corresponding 'numbers' vector
 void initNumbers() {
+    // Call function to add all boxes to vectors
     setNumberVectors(numberBoxesEasy, backgroundBoxEasy, easy);
     setNumberVectors(numberBoxesMedium, backgroundBoxMedium, medium);
     setNumberVectors(numberBoxesHard, backgroundBoxHard, hard);
@@ -164,14 +152,17 @@ void initGL() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
 }
 
+// Check how many boxes are in the correct position, set color to green if correct
 void checkCorrect(vector<Button> &numbers, vector<Button> &background){
     int numCorrect;
     for(int i = 0; i < numbers.size(); ++i) {
         if(numbers[i].label == background[i].label) {
             background[i].setColor(green);
             ++numCorrect;
+            // End game if all boxes are correct
             if(numCorrect == numbers.size()){
                 activeScreen = endScreen;
+                time(&endTime);
             }
         } else {
             background[i].setColor(red);
@@ -320,11 +311,11 @@ void display() {
         string label = "YOU WIN! It took you " + to_string(moveCount) + " moves to complete!";
         string label2 = "It took " + to_string(totalTime) + " seconds to finish!";
         glColor3f(1,1,1);
-        glRasterPos2i(250 - (4 * label.length()), 250);
+        glRasterPos2i(250 - (4 * label.length()), 200);
         for (const char &letter : label) {
             glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
         }
-        glRasterPos2i(250 - (4 * label.length()), 200);
+        glRasterPos2i(290 - (4 * label.length()), 250);
         for (const char &letter : label2) {
             glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
         }
@@ -341,18 +332,21 @@ void kbd(unsigned char key, int x, int y) {
         exit(0);
     }
 
-    // Go to screen corresponding with the difficulty
+    // Go to screen corresponding with the difficulty and start timer
     if(activeScreen == startScreen) {
+        // Takes e and E
         if (key == 69 || key == 101) {
             activeScreen = easyScreen;
             time(&startTime);
         }
 
+        // Takes m and M
         if (key == 77 || key == 109) {
             activeScreen = mediumScreen;
             time(&startTime);
         }
 
+        // Takes h and H
         if (key == 72 || key == 104) {
             activeScreen = hardScreen;
             time(&startTime);
@@ -363,27 +357,34 @@ void kbd(unsigned char key, int x, int y) {
 }
 
 void kbdS(int key, int x, int y) {
-    int swapNum;
+    // Create variable for how many boxes are in a row
+    int boxesInRow;
 
+    // Create variable to check if swapped - there was a bug where if you did right or down it sent you to the bottom right
     bool swapped = false;
     if(activeScreen == easyScreen) {
-       swapNum = 3;
+       // Set variables to corresponding values
+       boxesInRow = 3;
        swapped = false;
+       // Check all boxes
        for(int i = 0; i < numberBoxesEasy.size(); ++i) {
            switch(key) {
+               // Move down the blank box if not on bottom row and set swapped true
                case GLUT_KEY_DOWN:
                    if(numberBoxesEasy[i].label == "" && !swapped && i != 6 && i != 7 && i != 8){
-                       swap(numberBoxesEasy, i, i+swapNum);
+                       swap(numberBoxesEasy, i, i + boxesInRow);
                        swapped = true;
                        break;
                    }
                    else {break;}
+               // Move the blank box left if not on left column
                case GLUT_KEY_LEFT:
                    if(numberBoxesEasy[i].label == "" && i != 0 && i != 3 && i != 6){
                        swap(numberBoxesEasy, i, i-1);
                        break;
                    }
                    else {break;}
+               // Move the blank box right if not on right column and set swapped true
                case GLUT_KEY_RIGHT:
                    if(numberBoxesEasy[i].label == "" && !swapped && i != 2 && i != 5 && i != 8){
                        swap(numberBoxesEasy, i, i+1);
@@ -391,23 +392,23 @@ void kbdS(int key, int x, int y) {
                        break;
                    }
                    else {break;}
+               // Move the blank box up if not on top row
                case GLUT_KEY_UP:
                    if(numberBoxesEasy[i].label == "" && i != 0 && i != 1 && i != 2){
-                       swap(numberBoxesEasy, i, i-swapNum);
+                       swap(numberBoxesEasy, i, i - boxesInRow);
                        break;
                    }
                    else {break;}
            }
        }
-       checkEnd(backgroundBoxEasy);
-    } else if(activeScreen == mediumScreen) {
-        swapNum = 4;
+    } else if(activeScreen == mediumScreen) { // Repeat for medium
+        boxesInRow = 4;
         swapped = false;
         for(int i = 0; i < numberBoxesMedium.size(); ++i) {
             switch(key) {
                 case GLUT_KEY_DOWN:
                     if(numberBoxesMedium[i].label == "" && !swapped && i != 12 && i != 13 && i != 14 && i != 15){
-                        swap(numberBoxesMedium, i, i+swapNum);
+                        swap(numberBoxesMedium, i, i + boxesInRow);
                         swapped = true;
                         break;
                     }
@@ -427,21 +428,20 @@ void kbdS(int key, int x, int y) {
                     else {break;}
                 case GLUT_KEY_UP:
                     if(numberBoxesMedium[i].label == "" && i != 0 && i != 1 && i != 2 && i != 3){
-                        swap(numberBoxesMedium, i, i-swapNum);
+                        swap(numberBoxesMedium, i, i - boxesInRow);
                         break;
                     }
                     else {break;}
             }
         }
-        checkEnd(backgroundBoxMedium);
-    } else {
-        swapNum = 5;
+    } else { // Repeat for hard
+        boxesInRow = 5;
         swapped = false;
         for(int i = 0; i < numberBoxesHard.size(); ++i) {
             switch(key) {
                 case GLUT_KEY_DOWN:
                     if(numberBoxesHard[i].label == "" && !swapped && i != 20 && i != 21 && i != 22 && i != 23 && i != 24){
-                        swap(numberBoxesHard, i, i+swapNum);
+                        swap(numberBoxesHard, i, i + boxesInRow);
                         swapped = true;
                         break;
                     }
@@ -461,13 +461,12 @@ void kbdS(int key, int x, int y) {
                     else {break;}
                 case GLUT_KEY_UP:
                     if(numberBoxesHard[i].label == "" && i != 0 && i != 1 && i != 2 && i != 3 && i != 4){
-                        swap(numberBoxesHard, i, i-swapNum);
+                        swap(numberBoxesHard, i, i - boxesInRow);
                         break;
                     }
                     else {break;}
             }
         }
-        checkEnd(backgroundBoxHard);
     }
 
 

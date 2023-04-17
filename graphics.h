@@ -32,9 +32,6 @@ void setNumberVectors(vector<Button> &numbers, vector<Button> &background, enum 
 // Swap two elements in vector
 void swap(vector<Button> &vec, int firstNum, int secondNum);
 
-// Check if all pieces are in correct spot
-void checkEnd(vector<Button> background);
-
 // Adds all number buttons to the vectors
 void initNumbers();
 
